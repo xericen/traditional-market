@@ -1,0 +1,24 @@
+div(class="market-stage")
+    div(class="market-device")
+        div(class="market-device-notch", aria-hidden="true")
+        div(class="market-status-bar", aria-hidden="true")
+            span 9:41
+            div(class="flex items-center gap-1.5")
+                div(class="flex items-end gap-[2px]")
+                    span(class="h-1 w-[3px] rounded-sm bg-[#2F241D]")
+                    span(class="h-1.5 w-[3px] rounded-sm bg-[#2F241D]")
+                    span(class="h-2 w-[3px] rounded-sm bg-[#2F241D]")
+                    span(class="h-2.5 w-[3px] rounded-sm bg-[#2F241D]")
+                svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2", class="size-3.5")
+                    path(d="M5 10.5a10 10 0 0 1 14 0M8 14a6 6 0 0 1 8 0M11 17.5a2 2 0 0 1 2 0", stroke-linecap="round")
+                div(class="flex h-3.5 w-6 items-center rounded-[4px] border border-[#2F241D] p-[1px]")
+                    span(class="h-full w-4 rounded-[2px] bg-[#2F241D]")
+
+        main(class="market-device-content min-h-0 flex-1 overflow-y-auto")
+            router-outlet
+
+        wiz-portal-season-modal
+
+        div(*ngIf="service.status.loading", class="absolute inset-0 z-[70] flex items-center justify-center bg-[#2F241D]/25 backdrop-blur-sm")
+            div(class="rounded-3xl bg-white p-5 shadow-xl")
+                wiz-portal-season-loading-season(className="w-11 h-11 text-[#E96B2C] animate-spin duration-700")

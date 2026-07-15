@@ -1,0 +1,12 @@
+{
+    "id": "page.guide",
+    "mode": "page",
+    "title": "/guide/:tab?",
+    "namespace": "guide",
+    "category": "market",
+    "viewuri": "/guide/:tab?",
+    "preview": "",
+    "controller": "consumer",
+    "layout": "layout.sidebar",
+    "template": "wiz-page-guide()"
+}

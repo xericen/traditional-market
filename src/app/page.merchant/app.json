@@ -1,0 +1,12 @@
+{
+    "id": "page.merchant",
+    "mode": "page",
+    "title": "/merchant/:tab?",
+    "namespace": "merchant",
+    "category": "operations",
+    "viewuri": "/merchant/:tab?",
+    "preview": "",
+    "controller": "merchant",
+    "layout": "layout.sidebar",
+    "template": "wiz-page-merchant()"
+}

@@ -1,0 +1,65 @@
+header(class="relative z-40 shrink-0 border-b border-[#E9DED4] bg-[#FFFDF8]/95 backdrop-blur")
+    div(class="flex h-16 items-center gap-2 px-4")
+        a([routerLink]="homeLink()", class="flex min-w-0 flex-1 items-center gap-2.5")
+            div(class="flex size-9 shrink-0 items-center justify-center rounded-[14px] bg-[#2E7D32] text-white shadow-sm")
+                svg(viewBox="0 0 32 32", fill="none", class="size-5", aria-hidden="true")
+                    path(d="M8 12v15m16-15v15M5 12h22l-2.4-6H7.4L5 12Z", stroke="currentColor", stroke-width="2.2", stroke-linejoin="round")
+                    path(d="M12 27v-7h8v7", stroke="currentColor", stroke-width="2.2")
+            div(class="min-w-0")
+                p(class="truncate text-[15px] font-black leading-none tracking-[-0.03em] text-[#2F241D]") 홍천장날
+                p(class="mt-1 flex items-center gap-1 text-[9px] font-bold text-[#8B5E3C]")
+                    span {{roleLabel()}}
+                    span(class="size-1 rounded-full bg-[#E96B2C]")
+
+        a(*ngIf="isConsumer()", routerLink="/posts", class="flex size-9 shrink-0 items-center justify-center rounded-xl bg-[#F5EEE7] text-[#5D4E43]", aria-label="상품 검색")
+            svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="1.8", class="size-5")
+                circle(cx="11", cy="11", r="7")
+                path(d="m16.2 16.2 4 4", stroke-linecap="round")
+
+nav(*ngIf="isConsumer()", class="market-bottom-nav absolute inset-x-3 bottom-3 z-50 grid grid-cols-5 rounded-[22px] border border-[#E4D7CB] bg-[#FFFDF8]/95 p-1.5 shadow-[0_12px_40px_rgba(63,43,28,0.18)] backdrop-blur", aria-label="소비자 앱 메뉴")
+    a(routerLink="/dashboard", [class]="mobileClass('/dashboard')")
+        svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="1.8", class="size-5")
+            path(d="M3 11 12 4l9 7v9H3v-9Z", stroke-linejoin="round")
+            path(d="M9 20v-6h6v6")
+        span 홈
+    a(routerLink="/posts", [class]="mobileClass('/posts')")
+        svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="1.8", class="size-5")
+            path(d="M5 8h14l-1 12H6L5 8Zm3 0a4 4 0 0 1 8 0", stroke-linejoin="round")
+        span 장보기
+    a(routerLink="/cart", data-cart-motion-target="bottom", [class]="mobileClass('/cart')")
+        span(class="relative")
+            svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="1.8", class="size-5")
+                path(d="M3 4h2l2.1 10.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 1.9-1.4L21 7H6", stroke-linecap="round", stroke-linejoin="round")
+            span(*ngIf="cartCount > 0", class="absolute -right-2.5 -top-2 min-w-4 rounded-full bg-[#E96B2C] px-1 text-center text-[9px] font-bold text-white") {{cartCount}}
+        span 장바구니
+    a(routerLink="/orders", [class]="mobileClass('/orders')")
+        svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="1.8", class="size-5")
+            path(d="M6 3h12v18H6zM9 8h6M9 12h6M9 16h4", stroke-linecap="round", stroke-linejoin="round")
+        span 주문
+    a(routerLink="/mypage", [class]="mobileClass('/mypage')")
+        svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="1.8", class="size-5")
+            circle(cx="12", cy="8", r="3.5")
+            path(d="M5 20a7 7 0 0 1 14 0", stroke-linecap="round")
+        span 내 정보
+
+nav(*ngIf="isMerchant()", class="market-bottom-nav absolute inset-x-3 bottom-3 z-50 grid grid-cols-2 rounded-[22px] border border-[#E4D7CB] bg-[#FFFDF8]/95 p-1.5 shadow-[0_12px_40px_rgba(63,43,28,0.18)] backdrop-blur", aria-label="상인 간편 메뉴")
+    a(routerLink="/merchant/overview", [class]="mobileClass('/merchant/overview')")
+        span(class="text-lg") 🏪
+        span 장사 홈
+    a(routerLink="/mypage", [class]="mobileClass('/mypage')")
+        span(class="text-lg") 👤
+        span 내 정보
+
+nav(*ngIf="isAdmin()", class="market-bottom-nav absolute inset-x-3 bottom-3 z-50 grid grid-cols-4 rounded-[22px] border border-[#E4D7CB] bg-[#FFFDF8]/95 p-1.5 shadow-[0_12px_40px_rgba(63,43,28,0.18)] backdrop-blur", aria-label="마켓버틀러 운영 메뉴")
+    a(routerLink="/admin/overview", [class]="mobileClass('/admin/overview')")
+        span(class="text-lg") 📊
+        span 버틀러 홈
+    a(routerLink="/admin/orders", [class]="mobileClass('/admin/orders')")
+        span(class="text-lg") 🔔
+        span 주문·수거
+    a(routerLink="/members", [class]="mobileClass('/members')")
+        span(class="text-lg") 👥
+        span 계정
+    a(routerLink="/mypage", [class]="mobileClass('/mypage')")
+        span(class="text-lg") 👤
+        span 내 정보

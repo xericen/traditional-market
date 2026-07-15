@@ -1,0 +1,12 @@
+{
+    "id": "page.orders",
+    "mode": "page",
+    "title": "/orders",
+    "namespace": "orders",
+    "category": "market",
+    "viewuri": "/orders",
+    "preview": "",
+    "controller": "consumer",
+    "layout": "layout.sidebar",
+    "template": "wiz-page-orders()"
+}

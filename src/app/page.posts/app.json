@@ -1,0 +1,11 @@
+{
+    "mode": "page",
+    "id": "page.posts",
+    "title": "/posts",
+    "namespace": "posts",
+    "viewuri": "/posts",
+    "category": "market",
+    "controller": "consumer",
+    "layout": "layout.sidebar",
+    "template": "wiz-page-posts()"
+}

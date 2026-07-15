@@ -1,0 +1,12 @@
+{
+    "id": "page.cart",
+    "mode": "page",
+    "title": "/cart",
+    "namespace": "cart",
+    "category": "market",
+    "viewuri": "/cart",
+    "preview": "",
+    "controller": "consumer",
+    "layout": "layout.sidebar",
+    "template": "wiz-page-cart()"
+}

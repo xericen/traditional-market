@@ -1,0 +1,11 @@
+{
+    "mode": "page",
+    "id": "page.dashboard",
+    "title": "/dashboard",
+    "namespace": "dashboard",
+    "viewuri": "/dashboard",
+    "category": "market",
+    "controller": "consumer",
+    "layout": "layout.sidebar",
+    "template": "wiz-page-dashboard()"
+}

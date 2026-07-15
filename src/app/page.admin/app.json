@@ -1,0 +1,12 @@
+{
+    "id": "page.admin",
+    "mode": "page",
+    "title": "/admin/:tab?",
+    "namespace": "admin",
+    "category": "operations",
+    "viewuri": "/admin/:tab?",
+    "preview": "",
+    "controller": "admin",
+    "layout": "layout.sidebar",
+    "template": "wiz-page-admin()"
+}

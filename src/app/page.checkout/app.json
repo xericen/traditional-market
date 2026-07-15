@@ -1,0 +1,12 @@
+{
+    "id": "page.checkout",
+    "mode": "page",
+    "title": "/checkout/:step?",
+    "namespace": "checkout",
+    "category": "market",
+    "viewuri": "/checkout/:step?",
+    "preview": "",
+    "controller": "consumer",
+    "layout": "layout.sidebar",
+    "template": "wiz-page-checkout()"
+}

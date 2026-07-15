@@ -1,0 +1,36 @@
+doctype html
+html(lang="ko")
+    head
+        meta(charset="utf-8")
+        title 홍천장날 | Hongcheon Market Butler
+        base(href="/")
+        
+        meta(name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover")
+        meta(http-equiv="X-UA-Compatible" content="ie=edge")
+        meta(name="description" content="오늘의 홍천중앙시장을 대신 보고, 고르고, 검수해 드리는 마켓 버틀러 서비스")
+        meta(name="msapplication-TileColor" content="#2E7D32")
+        meta(name="theme-color" content="#FFF8EF")
+        meta(name="apple-mobile-web-app-status-bar-style" content="default")
+        meta(name="apple-mobile-web-app-capable" content="yes")
+        meta(name="apple-mobile-web-app-title" content="홍천장날")
+        meta(name="mobile-web-app-capable" content="yes")
+        meta(name="HandheldFriendly" content="True")
+        meta(name="MobileOptimized" content="390")
+        link(rel="shortcut icon", href="/assets/brand/icon.ico")
+
+        link(rel="apple-touch-icon" sizes="72x72" href="/assets/brand/icon.ico")
+        link(rel="apple-touch-icon" sizes="114x114" href="/assets/brand/icon.ico")
+        link(rel="apple-touch-icon" href="/assets/brand/icon.ico")
+        link(rel="icon" sizes="72x72" href="/assets/brand/icon.ico")
+        link(rel="icon" sizes="114x114" href="/assets/brand/icon.ico")
+        link(rel="icon" sizes="192x192" href="/assets/brand/icon.ico")
+        link(rel="icon" sizes="57x57" href="/assets/brand/icon.ico")
+        link(rel="manifest" href="/manifest.json")
+
+        script(type="text/javascript").
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/sw.js', {scope: '/'}).then((reg) => {});
+            }
+
+    body
+        app-root

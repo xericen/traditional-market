@@ -1,0 +1,10 @@
+:host {
+    display: block;
+    min-height: 100%;
+}
+
+.market-list-banner {
+    background:
+        radial-gradient(circle at 82% 50%, rgba(242, 140, 40, 0.18), transparent 18rem),
+        linear-gradient(135deg, #fff7e8 0%, #f8eadc 100%);
+}

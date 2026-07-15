@@ -1,0 +1,89 @@
+div(class="min-h-full bg-[#F8F5F0] px-4 pb-28 pt-5 text-[#2F241D]")
+    header
+        p(class="text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#2E7D32]") Hongcheon market guide
+        h1(class="mt-1 text-2xl font-black tracking-[-0.04em]") 이용 안내
+        p(class="mt-2 text-xs leading-5 text-[#7B6D62]") 혜택과 적립금, 향후 연계될 배달 서비스를 간단히 확인하세요.
+
+    nav(class="mt-5 flex rounded-2xl bg-[#EEE7DF] p-1", aria-label="이용 안내 메뉴")
+        button(*ngFor="let item of tabs", type="button", (click)="goTab(item.key)", [class]="tabClass(item.key)", [attr.aria-pressed]="tab === item.key")
+            span(aria-hidden="true") {{item.icon}}
+            span {{item.label}}
+
+    main(class="mt-5")
+        ng-container(*ngIf="tab === 'benefits'")
+            section(class="overflow-hidden rounded-[26px] bg-[#2F241D] p-5 text-white shadow-[0_16px_40px_rgba(47,36,29,0.15)]")
+                span(class="inline-flex rounded-full bg-white/10 px-2.5 py-1 text-[9px] font-extrabold text-[#FFD39F]") 회원 전용
+                h2(class="mt-3 text-xl font-black tracking-[-0.035em]")
+                    | 홍천의 안부를 보낼수록
+                    br
+                    | 혜택이 차곡차곡
+                p(class="mt-3 text-xs leading-5 text-white/65") 쿠폰과 적립금은 주문 결제 단계에서 바로 선택할 수 있습니다.
+                div(class="mt-5 grid grid-cols-2 gap-2")
+                    div(class="rounded-2xl bg-white/10 p-3")
+                        p(class="text-[9px] font-bold text-white/55") 첫 주문 혜택
+                        p(class="mt-1 text-sm font-black") 3,000원 쿠폰
+                    div(class="rounded-2xl bg-white/10 p-3")
+                        p(class="text-[9px] font-bold text-white/55") 적립금 가치
+                        p(class="mt-1 text-sm font-black") 1P = 1원
+
+            section(class="mt-4 space-y-3")
+                article(class="rounded-[22px] border border-[#E5D9CE] bg-[#FFFDF8] p-4")
+                    div(class="flex items-start gap-3")
+                        span(class="flex size-10 shrink-0 items-center justify-center rounded-xl bg-[#FFF0DD] text-xl") 🧾
+                        div
+                            h2(class="text-sm font-black") 쿠폰 사용
+                            p(class="mt-1 text-[11px] leading-5 text-[#7B6D62]") 주문당 쿠폰 1개를 적용할 수 있으며, 적용 조건과 할인 금액은 결제 전에 표시됩니다.
+                article(class="rounded-[22px] border border-[#E5D9CE] bg-[#FFFDF8] p-4")
+                    div(class="flex items-start gap-3")
+                        span(class="flex size-10 shrink-0 items-center justify-center rounded-xl bg-[#E8F4E7] text-xl") P
+                        div
+                            h2(class="text-sm font-black") 적립금 사용
+                            p(class="mt-1 text-[11px] leading-5 text-[#7B6D62]") 보유 적립금은 1P당 1원으로 결제 금액에서 차감됩니다. 취소·환불 시 사용분은 처리 완료 후 복원됩니다.
+                article(class="rounded-[22px] border border-[#F0D4A6] bg-[#FFF8E9] p-4")
+                    p(class="text-xs font-black text-[#78551F]") 운영 정책 안내
+                    p(class="mt-1 text-[10px] leading-5 text-[#8E7042]") 정식 적립률, 유효기간, 상품권과의 중복 사용 기준은 서비스 개시 전에 확정해 다시 안내합니다.
+
+            a(routerLink="/cart", class="mt-4 flex h-12 items-center justify-center rounded-xl bg-[#2E7D32] text-xs font-black text-white") 장바구니에서 결제 혜택 확인
+
+        ng-container(*ngIf="tab === 'delivery'")
+            section(class="rounded-[26px] border border-[#D8E4D5] bg-[#EDF6EB] p-5")
+                div(class="flex items-start justify-between gap-3")
+                    div
+                        span(class="inline-flex rounded-full bg-white px-2.5 py-1 text-[9px] font-extrabold text-[#2E7D32]") 외부 배달앱 연계 예정
+                        h2(class="mt-3 text-xl font-black tracking-[-0.035em] text-[#30472F]") 홍천중앙시장 배달몰
+                    span(class="text-4xl", aria-hidden="true") 🛵
+                p(class="mt-3 text-xs leading-5 text-[#647861]") 상인회가 자체 배달망을 운영하지 않고, 전문 외부 배달업체와 연결해 신선식품 배송을 지원할 예정입니다.
+
+            section(class="mt-4 rounded-[24px] border border-[#E5D9CE] bg-[#FFFDF8] p-5")
+                h2(class="text-base font-black") 설치 방법
+                ol(class="mt-4 space-y-3")
+                    li(class="flex gap-3")
+                        span(class="flex size-7 shrink-0 items-center justify-center rounded-full bg-[#2E7D32] text-[10px] font-black text-white") 1
+                        p(class="pt-1 text-[11px] leading-5 text-[#6F6258]") 제휴 배달앱 확정 후 아래 QR 코드를 휴대폰 카메라로 스캔합니다.
+                    li(class="flex gap-3")
+                        span(class="flex size-7 shrink-0 items-center justify-center rounded-full bg-[#2E7D32] text-[10px] font-black text-white") 2
+                        p(class="pt-1 text-[11px] leading-5 text-[#6F6258]") 앱스토어에서 배달앱을 설치하고 회원가입 또는 로그인을 합니다.
+                    li(class="flex gap-3")
+                        span(class="flex size-7 shrink-0 items-center justify-center rounded-full bg-[#2E7D32] text-[10px] font-black text-white") 3
+                        p(class="pt-1 text-[11px] leading-5 text-[#6F6258]") 앱에서 ‘홍천중앙시장’을 검색해 배달 가능한 상품을 확인합니다.
+
+                div(class="mt-5 flex flex-col items-center rounded-2xl bg-[#F5F1EB] px-4 py-5 text-center")
+                    div(class="guide-qr-placeholder flex size-32 items-center justify-center rounded-xl border-8 border-white shadow-sm", role="img", aria-label="제휴 배달앱 QR 코드 준비 중")
+                        span(class="rounded-lg bg-white px-2 py-1 text-[9px] font-black text-[#2E7D32]") QR 준비 중
+                    p(class="mt-3 text-[10px] font-extrabold text-[#5D5046]") 제휴사 확정 후 설치 QR이 활성화됩니다.
+
+            section(class="mt-4 rounded-[24px] border border-[#E5D9CE] bg-white p-5")
+                h2(class="text-base font-black") 문의 · 웹사이트
+                dl(class="mt-4 space-y-3 text-[11px]")
+                    div(class="flex items-start justify-between gap-4")
+                        dt(class="shrink-0 font-bold text-[#8B7E73]") 운영 주체
+                        dd(class="text-right font-extrabold") 마켓버틀러(홍천상인회)
+                    div(class="flex items-start justify-between gap-4")
+                        dt(class="shrink-0 font-bold text-[#8B7E73]") 연락처
+                        dd(class="text-right font-extrabold") 제휴 확정 후 공개
+                    div(class="flex items-start justify-between gap-4")
+                        dt(class="shrink-0 font-bold text-[#8B7E73]") 웹사이트
+                        dd(class="text-right")
+                            a(href="https://market.seasonai.net", target="_blank", rel="noopener noreferrer", class="font-extrabold text-[#2E7D32]") market.seasonai.net
+
+                p(class="mt-4 rounded-xl bg-[#FFF8E9] px-3 py-3 text-[10px] leading-5 text-[#8E7042]") 현재는 소개용 화면입니다. 배달앱 설치 링크, 실제 QR, 고객센터 번호는 외부 업체 계약 후 교체합니다.
