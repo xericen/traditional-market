@@ -5,7 +5,6 @@ node_modules/
 /config/
 /build/
 /test/
-package-lock.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

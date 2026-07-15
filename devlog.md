@@ -20,3 +20,4 @@
 | 2026-07-13 | 007 | 상인 판매 상품·오늘 매출 상세·운영 일정 읽기 전용 현황판 확장 | [상세](devlog/2026-07-13/007-expand-merchant-store-dashboard.md) |
 | 2026-07-13 | 008 | 마켓 버틀러의 온라인 판매 전담 업무와 단계별 운영 상태 흐름 구현 | [상세](devlog/2026-07-13/008-clarify-market-butler-operator-role.md) |
 | 2026-07-15 | 001 | 공개 저장소 게시를 위한 민감정보 정리 및 전체 작업 스냅샷 커밋·푸시 | [상세](devlog/2026-07-15/001-publish-github-snapshot.md) |
+| 2026-07-15 | 002 | 기업형 Git 협업 문서·템플릿·자동 품질검사와 저장소 운영 구조 정비 | [상세](devlog/2026-07-15/002-enterprise-git-workflow.md) |

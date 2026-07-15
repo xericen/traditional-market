@@ -1,4 +1,15 @@
 {
+  "name": "traditional-market",
+  "version": "0.1.0",
+  "private": true,
+  "description": "홍천 전통시장 마켓버틀러 WIZ 웹 서비스",
+  "scripts": {
+    "check:python": "python3 scripts/check_python_syntax.py",
+    "audit:dependencies": "npm audit --audit-level=critical"
+  },
+  "engines": {
+    "node": ">=20.11"
+  },
   "dependencies": {
     "@angular/cli": "^18.2.5"
   }
