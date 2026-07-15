@@ -40,11 +40,11 @@ https://github.com/xericen/traditional-market 여기에 지금까지 너랑 대�
 - 자격증명 마스킹 후 WIZ 클린 빌드 성공
 - 변경·추가된 Python 파일 AST 검사 및 `git diff --check` 통과
 - 샘플 저장소의 과거 이력을 제외한 공개용 루트 커밋 생성 완료
-- 대상 GitHub 저장소의 `main` 브랜치 푸시를 시도했으나, 실행 환경에 HTTPS 자격증명·GitHub CLI·SSH 키가 없어 인증 단계에서 중단됨
+- 프로젝트 전용 Deploy key를 적용해 GitHub SSH 인증 성공
+- 공개용 커밋을 대상 GitHub 저장소의 `main` 브랜치로 푸시하고 원격 커밋 대조 완료
 
 ## 남은 리스크
 
 - 새 배포 환경에서는 초기 계정 생성 전에 `MARKET_ADMIN_PASSWORD`, `MARKET_MERCHANT_PASSWORD`, `MARKET_CONSUMER_PASSWORD`를 안전한 비밀 관리 수단으로 주입해야 한다.
 - 공개 저장소 게시 전 자동화된 보안 스캐너가 아닌 정규식 기반 검사를 사용하므로, 의미 기반 민감정보 누락 가능성은 완전히 제거할 수 없다.
 - WIZ 빌드는 성공했지만 npm audit 기준 56개 취약점(7 low, 17 moderate, 32 high)이 남아 있다.
-- GitHub 인증이 설정되기 전까지 대상 원격 저장소에는 커밋이 게시되지 않는다.
