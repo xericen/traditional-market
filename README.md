@@ -61,7 +61,9 @@ npm run check:python
 
 초기 계정이 없는 환경에서만 아래 환경변수로 비밀번호를 주입합니다. 최초 생성 후 환경변수를 제거하고 비밀번호를 변경하세요.
 
-- `MARKET_ADMIN_PASSWORD`
+- `MARKET_ADMIN_PASSWORD` (`admin`, 총괄관리자)
+- `MARKET_ADMIN2_PASSWORD` (`admin2`, 상품관리자)
+- `MARKET_ADMIN3_PASSWORD` (`admin3`, 주문관리자)
 - `MARKET_MERCHANT_PASSWORD`
 - `MARKET_CONSUMER_PASSWORD`
 

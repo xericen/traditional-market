@@ -3,6 +3,7 @@ class Struct:
         self.orm = wiz.model("portal/season/orm")
         self.session = wiz.model("portal/season/session").use()
         self._User = wiz.model("struct/user")
+        self._RBAC = wiz.model("struct/rbac")
         self._packages = {}
 
         self._init_tables()
@@ -32,6 +33,11 @@ class Struct:
     def user(self):
         """User Sub-Struct 접근 (호출마다 새 인스턴스)"""
         return self._User(self)
+
+    @property
+    def rbac(self):
+        """역할 기반 권한 정책 접근"""
+        return self._RBAC(self)
 
     def __getattr__(self, name):
         """알 수 없는 속성은 패키지 Struct에서 동적으로 로드"""

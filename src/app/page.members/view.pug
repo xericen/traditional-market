@@ -1,92 +1,67 @@
-nav(class="sticky top-0 z-20 bg-white shadow")
-    div(class="max-w-5xl px-2   py-3 ")
-        div(class="flex items-center justify-between")
-            div(class="min-w-0 flex-1")
-                h1(class="flex text-lg font-semibold text-zinc-950 gap-x-3 items-center")
-                    svg(xmlns="http://www.w3.org/2000/svg", fill="none", viewBox="0 0 24 24", stroke-width="1.5", stroke="currentColor", class="size-6")
-                        path(stroke-linecap="round", stroke-linejoin="round", d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z")
-                    span 계정 관리
-
-            div(class="flex items-center gap-2")
-                button(
-                    (click)="openInvite()",
-                    class="inline-flex items-center rounded-xl bg-indigo-600 px-3 py-2 text-[13px] font-semibold text-white shadow-sm hover:bg-indigo-500")
-                    svg(xmlns="http://www.w3.org/2000/svg", fill="none", viewBox="0 0 24 24", stroke-width="1.5", stroke="currentColor", class="size-5 mr-1")
-                        path(stroke-linecap="round", stroke-linejoin="round", d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z")
-                    span 계정 추가
-
-div(class="max-w-5xl pt-4 px-8 mb-6")
-    //- Role Filter
-    div(class="flex flex-wrap items-center gap-2 mb-4")
-        span(class="text-xs text-gray-400 mr-1") 역할:
-        button(
-            (click)="filterByRole('')",
-            class="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium transition-colors",
-            [ngClass]="search.role === '' ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'")
-            | 전체
-        button(
-            *ngFor="let role of roles",
-            (click)="filterByRole(role)",
-            class="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium capitalize transition-colors",
-            [ngClass]="search.role === role ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'")
-            | {{roleName(role)}}
-
-    //- Members Grid
-    ng-container(*ngIf="loading")
-        div(class="text-center py-12 text-[13px] text-gray-400") 로딩 중...
-
-    ng-container(*ngIf="!loading")
-        div(*ngIf="members.length === 0", class="text-center py-12 text-[13px] text-gray-400") 멤버가 없습니다.
-
-        div(class="grid grid-cols-1   gap-4", *ngIf="members.length > 0")
-            div(*ngFor="let member of members", class="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-shadow")
-                div(class="flex items-start justify-between")
-                    div(class="flex items-center gap-3")
-                        div(class="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-full text-sm font-bold", [ngClass]="member.avatarColor || 'bg-indigo-100 text-indigo-700'")
-                            | {{member.name?.charAt(0) || '?'}}
-                        div(class="min-w-0")
-                            p(class="text-[13px] font-semibold text-gray-900 truncate") {{member.name}}
-                            p(class="text-[11px] text-gray-400 truncate") {{member.email}}
-
-                    span(class="inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-medium capitalize", [ngClass]="roleClass(member.role)")
-                        | {{roleName(member.role)}}
-
-                div(class="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between")
-                    span(class="text-[11px] text-gray-400") 가입일: {{member.joined}}
-                    button(
-                        (click)="removeMember(member); $event.stopPropagation()",
-                        class="text-[11px] text-gray-400 hover:text-red-500 transition-colors")
-                        | 제거
-
-//- Invite Modal
-div(*ngIf="showInviteModal", class="absolute inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm")
-    div(class="bg-white rounded-xl shadow-xl w-full max-w-md mx-4 overflow-hidden")
-        div(class="px-6 py-5 border-b border-gray-100")
-            h3(class="text-[15px] font-semibold text-gray-900") 계정 만들기
-            p(class="text-[13px] text-gray-500 mt-1") 역할을 지정해 새 계정을 만듭니다.
-
-        div(class="px-6 py-6 space-y-4")
+div(class="min-h-full bg-[#F3F6F1]")
+    header(class="border-b border-[#D8E3D5] bg-[#234E29] px-4 py-5 text-white")
+        div(class="mx-auto flex max-w-5xl items-center justify-between gap-3")
             div
-                label(class="block text-[13px] font-medium text-gray-700 mb-1") 이메일
-                input(
-                    type="email",
-                    [(ngModel)]="inviteData.email",
-                    placeholder="name@example.com",
-                    class="block w-full rounded-lg border border-gray-300 px-3 py-2 text-[13px] text-gray-900 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none")
+                p(class="text-[10px] font-extrabold uppercase tracking-[0.16em] text-[#BFD7BF]") RBAC account control
+                h1(class="mt-1 text-xl font-black") 관리자 계정 · 권한 관리
+                p(class="mt-1 text-[10px] text-[#C9DCC9]") 총괄관리자만 계정 생성·수정·삭제, 역할 변경과 버틀러 가입 승인을 수행할 수 있습니다.
+            button(type="button", (click)="openInvite()", class="h-11 shrink-0 rounded-xl bg-white px-4 text-xs font-extrabold text-[#234E29]") + 계정 추가
 
-            div
-                label(class="block text-[13px] font-medium text-gray-700 mb-1") 역할
-                select(
-                    [(ngModel)]="inviteData.role",
-                    class="block w-full rounded-lg border border-gray-300 px-3 py-2 text-[13px] text-gray-900 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none")
-                    option(value="merchant") 상인
-                    option(value="consumer") 소비자
-                    option(value="admin") 마켓버틀러
+    main(class="mx-auto max-w-5xl px-4 pb-32 pt-5")
+        section(class="rounded-2xl border border-[#DCE5D9] bg-white p-4")
+            p(class="text-xs font-black text-[#344333]") 역할별 계정 찾기
+            div(class="mt-3 flex flex-wrap gap-2")
+                button(type="button", (click)="filterByRole('')", class="rounded-full px-3 py-1.5 text-[10px] font-extrabold", [ngClass]="search.role === '' ? 'bg-[#234E29] text-white' : 'bg-[#F1F5EF] text-[#657463]'") 전체
+                button(*ngFor="let role of roles", type="button", (click)="filterByRole(role.value)", class="rounded-full px-3 py-1.5 text-[10px] font-extrabold", [ngClass]="search.role === role.value ? 'bg-[#234E29] text-white' : 'bg-[#F1F5EF] text-[#657463]'") {{role.label}}
 
-        div(class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-end gap-2")
-            button(
-                (click)="showInviteModal = false",
-                class="inline-flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-[13px] font-medium text-gray-700 shadow-sm hover:bg-gray-50") 취소
-            button(
-                (click)="invite()",
-                class="inline-flex items-center rounded-lg bg-indigo-600 px-4 py-2 text-[13px] font-semibold text-white shadow-sm hover:bg-indigo-500") 추가
+        p(*ngIf="loading", class="py-12 text-center text-xs text-[#71806F]") 계정을 불러오는 중입니다.
+        p(*ngIf="!loading && members.length === 0", class="py-12 text-center text-xs text-[#71806F]") 조건에 맞는 계정이 없습니다.
+
+        section(*ngIf="!loading && members.length > 0", class="mt-4 space-y-3")
+            article(*ngFor="let member of members", class="rounded-2xl border border-[#DCE5D9] bg-white p-4 shadow-sm")
+                div(class="flex items-start gap-3")
+                    div(class="flex size-10 shrink-0 items-center justify-center rounded-full text-sm font-black", [ngClass]="member.avatarColor") {{member.name?.charAt(0) || '?'}}
+                    div(class="min-w-0 flex-1")
+                        div(class="flex flex-wrap items-center gap-2")
+                            p(class="text-xs font-black text-[#344333]") {{member.name}}
+                            span(class="rounded-full px-2 py-0.5 text-[9px] font-extrabold", [ngClass]="roleClass(member.role)") {{roleName(member.role)}}
+                        p(class="mt-1 truncate text-[10px] text-[#7B8879]") {{member.id}} · {{member.email}} · 생성 {{member.joined}}
+
+                div(class="mt-4 grid gap-3 sm:grid-cols-2")
+                    label
+                        span(class="mb-1 block text-[10px] font-bold text-[#657463]") 이름
+                        input([(ngModel)]="member.editName", class="h-10 w-full rounded-xl border border-[#D7E0D5] px-3 text-xs")
+                    label
+                        span(class="mb-1 block text-[10px] font-bold text-[#657463]") 역할
+                        select([(ngModel)]="member.editRole", class="h-10 w-full rounded-xl border border-[#D7E0D5] bg-white px-3 text-xs")
+                            option(*ngFor="let role of roles", [value]="role.value") {{role.label}}
+                button(*ngIf="member.role === 'butler_pending'", type="button", (click)="approveButler(member)", class="mt-3 h-11 w-full rounded-xl bg-[#0F766E] text-[10px] font-extrabold text-white") 마켓 버틀러 가입 승인
+                div(class="mt-3 grid grid-cols-2 gap-2")
+                    button(type="button", (click)="updateMember(member)", class="h-10 rounded-xl bg-[#2E7D32] text-[10px] font-extrabold text-white") 변경 저장
+                    button(type="button", (click)="removeMember(member)", class="h-10 rounded-xl border border-[#E7B7AA] bg-[#FFF7F4] text-[10px] font-extrabold text-[#B74931]") 계정 삭제
+
+    div(*ngIf="showInviteModal", class="absolute inset-0 z-50 flex items-center justify-center bg-black/45 p-4 backdrop-blur-sm")
+        section(class="max-h-[90%] w-full max-w-md overflow-y-auto rounded-2xl bg-white shadow-xl")
+            div(class="border-b border-[#E5EBE3] px-5 py-4")
+                h2(class="text-base font-black text-[#344333]") 새 계정 만들기
+                p(class="mt-1 text-[10px] text-[#71806F]") 역할을 지정해 관리자·상인·소비자 계정을 생성합니다.
+            div(class="space-y-3 px-5 py-5")
+                label
+                    span(class="mb-1 block text-[10px] font-bold text-[#526150]") 아이디
+                    input([(ngModel)]="inviteData.identifier", placeholder="영문·숫자 3~32자", class="h-11 w-full rounded-xl border border-[#D7E0D5] px-3 text-xs")
+                label
+                    span(class="mb-1 block text-[10px] font-bold text-[#526150]") 이메일
+                    input(type="email", [(ngModel)]="inviteData.email", placeholder="name@example.com", class="h-11 w-full rounded-xl border border-[#D7E0D5] px-3 text-xs")
+                label
+                    span(class="mb-1 block text-[10px] font-bold text-[#526150]") 이름
+                    input([(ngModel)]="inviteData.name", placeholder="담당자 이름", class="h-11 w-full rounded-xl border border-[#D7E0D5] px-3 text-xs")
+                label
+                    span(class="mb-1 block text-[10px] font-bold text-[#526150]") 초기 비밀번호
+                    input(type="password", [(ngModel)]="inviteData.password", placeholder="8자 이상", class="h-11 w-full rounded-xl border border-[#D7E0D5] px-3 text-xs")
+                label
+                    span(class="mb-1 block text-[10px] font-bold text-[#526150]") 역할
+                    select([(ngModel)]="inviteData.role", class="h-11 w-full rounded-xl border border-[#D7E0D5] bg-white px-3 text-xs")
+                        option(*ngFor="let role of roles", [value]="role.value") {{role.label}}
+            div(class="grid grid-cols-2 gap-2 border-t border-[#E5EBE3] bg-[#F7FAF6] px-5 py-4")
+                button(type="button", (click)="showInviteModal = false", class="h-11 rounded-xl border border-[#D7E0D5] bg-white text-xs font-extrabold text-[#657463]") 취소
+                button(type="button", (click)="invite()", class="h-11 rounded-xl bg-[#2E7D32] text-xs font-extrabold text-white") 계정 생성

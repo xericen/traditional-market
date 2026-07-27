@@ -37,37 +37,35 @@ export class Component implements OnInit {
         return this.service.auth.session?.role || '';
     }
 
-    public isConsumer() {
-        return this.role() === 'consumer';
+    public hasPermission(permission: string) {
+        return (this.service.auth.session?.permissions || []).indexOf(permission) >= 0;
     }
 
-    public isMerchant() {
-        return this.role() === 'merchant';
-    }
-
-    public isAdmin() {
-        return this.role() === 'admin';
+    public isConsumer() { return this.role() === 'consumer'; }
+    public isMerchant() { return this.role() === 'merchant'; }
+    public isStaff() {
+        return ['admin', 'super_admin', 'product_manager', 'order_manager', 'market_butler'].indexOf(this.role()) >= 0;
     }
 
     public roleLabel() {
-        if (this.isAdmin()) return '마켓버틀러';
+        if (this.service.auth.session?.roleLabel) return this.service.auth.session.roleLabel;
+        if (this.role() === 'admin' || this.role() === 'super_admin') return '총괄관리자';
+        if (this.role() === 'product_manager') return '상품관리자';
+        if (this.role() === 'order_manager') return '주문관리자';
+        if (this.role() === 'market_butler') return '마켓 버틀러';
         if (this.isMerchant()) return '상인 점포';
         return '소비자';
     }
 
     public homeLink() {
-        if (this.isAdmin()) return '/admin/overview';
+        if (this.isStaff()) return '/admin/overview';
         if (this.isMerchant()) return '/merchant/overview';
         return '/dashboard';
     }
 
     public isActive(link: string) {
-        if (link === '/dashboard') {
-            return location.pathname === '/' || location.pathname === '/dashboard';
-        }
-        if (link === '/cart' && location.pathname.indexOf('/checkout') === 0) {
-            return true;
-        }
+        if (link === '/dashboard') return location.pathname === '/' || location.pathname === '/dashboard';
+        if (link === '/cart' && location.pathname.indexOf('/checkout') === 0) return true;
         return location.pathname.indexOf(link) === 0;
     }
 

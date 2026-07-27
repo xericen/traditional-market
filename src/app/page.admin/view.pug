@@ -5,13 +5,14 @@ div(class="min-h-full bg-[#F3F6F1]")
                 div(class="flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#BFD7BF]")
                     span(class="size-1.5 animate-pulse rounded-full bg-[#F4C15D]")
                     | Hongcheon Market Operations
-                h1(class="mt-2 text-2xl font-black tracking-[-0.04em] ") 마켓 버틀러 운영 콘솔
-                p(class="mt-2 text-xs leading-5 text-[#C9DCC9] ") 홍천상인회 마켓 버틀러가 상인을 대신해 오전 재고 확인부터 상품 운영, 검수·포장, 배달업체 인계까지 온라인 판매 전 과정을 전담합니다.
+                h1(class="mt-2 text-2xl font-black tracking-[-0.04em] ") {{roleLabel()}} 운영 콘솔
+                p(class="mt-2 text-xs leading-5 text-[#C9DCC9] ") 역할에 허용된 상품·콘텐츠·주문·배송 업무만 표시되며, 서버 권한 정책으로 동일하게 보호됩니다.
             div(class="flex flex-wrap items-center gap-2")
                 div(class="rounded-xl border border-white/15 bg-white/10 px-3 py-2 backdrop-blur")
                     p(class="text-[9px] font-bold text-[#BFD7BF]") 오늘 운영일
                     p(class="mt-0.5 text-xs font-extrabold") {{todayLabel}}
-                a(routerLink="/members", class="inline-flex h-11 items-center rounded-xl bg-white px-4 text-xs font-extrabold text-[#234E29] transition hover:bg-[#F4F8F2]") 계정 관리 →
+                a(*ngIf="hasPermission('admin.accounts.manage')", routerLink="/members", class="inline-flex h-11 items-center rounded-xl bg-white px-4 text-xs font-extrabold text-[#234E29] transition hover:bg-[#F4F8F2]") 계정 관리 →
+                span(class="inline-flex h-11 items-center rounded-xl border border-white/20 bg-white/10 px-4 text-xs font-extrabold") {{roleLabel()}}
 
     div(class="sticky top-0 z-30 border-b border-[#DCE5D9] bg-[#F8FBF7]/95 backdrop-blur")
         nav(class="mx-auto flex max-w-7xl gap-1 overflow-x-auto px-4 py-2  ", aria-label="마켓버틀러 운영 메뉴")
@@ -48,6 +49,7 @@ div(class="min-h-full bg-[#F3F6F1]")
                         p(class="mt-2 text-2xl font-black text-[#273726] ") {{stat.value}}
                         p(class="mt-1 text-[10px] font-semibold", [ngClass]="stat.tone") {{stat.note}}
                     span(class="flex size-10 items-center justify-center rounded-2xl text-xl", [ngClass]="stat.bg") {{stat.icon}}
+            p(class="col-span-2 rounded-xl border border-[#D7E0D5] bg-white px-3 py-2 text-[10px] font-bold text-[#657463]") 판매 통계는 모든 관리자 역할에서 조회 전용입니다. 통계 변경 권한은 총괄관리자에게만 예약되어 있습니다.
 
         section(*ngIf="tab === 'overview'", class="mt-6 grid gap-5 ")
             article(class="rounded-[24px] border border-[#DCE5D9] bg-white p-5 ")
@@ -99,7 +101,7 @@ div(class="min-h-full bg-[#F3F6F1]")
                     p(class="mt-3 text-[10px] leading-5 text-white/60") 상품 촬영·등록·가격·품절·주문·검수·포장·배송 인계를 마켓 버틀러(홍천상인회)가 전담합니다.
 
         section(*ngIf="tab === 'products'", class="mt-6 grid gap-5 ")
-            article(class="rounded-[24px] border border-[#DCE5D9] bg-white p-5")
+            article(*ngIf="hasPermission('products.update')", class="rounded-[24px] border border-[#DCE5D9] bg-white p-5")
                 div(class="flex items-start justify-between gap-3")
                     div
                         p(class="text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#2E7D32]") Morning market round
@@ -114,7 +116,7 @@ div(class="min-h-full bg-[#F3F6F1]")
                             span(class="mt-0.5 block text-[10px] leading-4 text-[#7B8879]") {{round.note}}
                         span(class="shrink-0 text-[9px] font-bold text-[#6F806D]") {{round.done ? round.checkedAt : '확인 대기'}}
 
-            aside(class="rounded-[24px] border border-[#DCE5D9] bg-white p-5   ")
+            aside(*ngIf="hasPermission('products.create')", class="rounded-[24px] border border-[#DCE5D9] bg-white p-5   ")
                 div(class="flex items-center justify-between")
                     div
                         p(class="text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#2E7D32]") Quick upload
@@ -184,12 +186,12 @@ div(class="min-h-full bg-[#F3F6F1]")
                                 p(class="mt-1 truncate text-[10px] text-[#7B8879]") {{product.shop}} · {{product.category}}
                             span(class="shrink-0 rounded-full px-2.5 py-1 text-[9px] font-extrabold", [ngClass]="product.visible ? 'bg-[#EDF6EB] text-[#2E7D32]' : 'bg-[#FFF1ED] text-[#C9492C]'") {{product.visible ? '판매 중' : '품절'}}
                         div(class="mt-3 grid grid-cols-2 gap-2")
-                            label(class="rounded-xl bg-[#F7FAF6] px-2.5 py-2")
+                            label(*ngIf="hasPermission('products.price.update')", class="rounded-xl bg-[#F7FAF6] px-2.5 py-2")
                                 span(class="block text-[9px] font-bold text-[#71806F]") 판매가 수정
                                 span(class="mt-1 flex items-center gap-1")
                                     input(type="number", min="1", [(ngModel)]="product.price", [attr.aria-label]="product.name + ' 판매가'", class="h-9 min-w-0 flex-1 rounded-lg border border-[#D7E0D5] bg-white px-2 text-xs font-bold text-[#425041]")
                                     span(class="shrink-0 text-[10px] font-bold text-[#657463]") 원
-                            label(class="rounded-xl bg-[#F7FAF6] px-2.5 py-2")
+                            label(*ngIf="hasPermission('inventory.update')", class="rounded-xl bg-[#F7FAF6] px-2.5 py-2")
                                 span(class="block text-[9px] font-bold text-[#71806F]") 오늘 재고 수정
                                 span(class="mt-1 flex items-center gap-1")
                                     input(type="number", min="0", [(ngModel)]="product.stock", [attr.aria-label]="product.name + ' 오늘 재고'", class="h-9 min-w-0 flex-1 rounded-lg border border-[#D7E0D5] bg-white px-2 text-xs font-bold text-[#425041]")
@@ -201,8 +203,9 @@ div(class="min-h-full bg-[#F3F6F1]")
                                 p(class="text-[9px] font-bold text-[#859182]") 최근 반영
                                 p(class="mt-1 text-[11px] font-black text-[#425041]") {{product.updatedAt || '오전 순회'}}
                         div(class="mt-3 grid grid-cols-2 gap-2")
-                            button(type="button", (click)="saveProductUpdate(product)", class="min-h-11 rounded-xl bg-[#2E7D32] px-3 text-[10px] font-extrabold text-white") 가격 · 재고 저장
-                            button(type="button", (click)="markProductSoldOut(product)", [disabled]="!product.visible", class="min-h-11 rounded-xl border border-[#E7B7AA] bg-[#FFF7F4] px-3 text-[10px] font-extrabold text-[#B74931] disabled:cursor-not-allowed disabled:opacity-50") {{product.visible ? '품절 처리' : '품절 반영 완료'}}
+                            button(*ngIf="hasPermission('products.price.update')", type="button", (click)="saveProductUpdate(product)", class="min-h-11 rounded-xl bg-[#2E7D32] px-3 text-[10px] font-extrabold text-white") 가격 · 재고 저장
+                            button(*ngIf="!hasPermission('products.price.update') && hasPermission('inventory.update')", type="button", (click)="saveStockUpdate(product)", class="min-h-11 rounded-xl bg-[#2E7D32] px-3 text-[10px] font-extrabold text-white") 재고만 저장
+                            button(*ngIf="hasPermission('inventory.update')", type="button", (click)="markProductSoldOut(product)", [disabled]="!product.visible", class="min-h-11 rounded-xl border border-[#E7B7AA] bg-[#FFF7F4] px-3 text-[10px] font-extrabold text-[#B74931] disabled:cursor-not-allowed disabled:opacity-50") {{product.visible ? '품절 처리' : '품절 반영 완료'}}
 
         section(*ngIf="tab === 'orders'", class="mt-6 grid gap-5 ")
             aside(class="overflow-hidden rounded-[24px] border border-[#DCE5D9] bg-white   ")
@@ -230,7 +233,8 @@ div(class="min-h-full bg-[#F3F6F1]")
                         p(class="text-[10px] font-extrabold uppercase tracking-[0.14em] text-[#2E7D32]") Order intake
                         h2(class="mt-1 text-xl font-black text-[#273726]") {{selectedAdminOrder.id}}
                         p(class="mt-1 text-xs text-[#71806F]") {{selectedAdminOrder.customer}} · {{selectedAdminOrder.mobile}} · {{selectedAdminOrder.time}} 접수
-                    button(type="button", (click)="acceptOrder()", [disabled]="selectedAdminOrder.accepted", class="min-h-11 self-start rounded-xl bg-[#2E7D32] px-4 text-xs font-extrabold text-white disabled:cursor-not-allowed disabled:bg-[#A7B7A4]") {{selectedAdminOrder.accepted ? '주문 확인 완료 · 수거 중' : '주문 확인 · 수거 시작'}}
+                    button(*ngIf="hasPermission('orders.shipping.update')", type="button", (click)="acceptOrder()", [disabled]="selectedAdminOrder.accepted", class="min-h-11 self-start rounded-xl bg-[#2E7D32] px-4 text-xs font-extrabold text-white disabled:cursor-not-allowed disabled:bg-[#A7B7A4]") {{selectedAdminOrder.accepted ? '주문 확인 완료 · 수거 중' : '주문 확인 · 수거 시작'}}
+                    span(*ngIf="!hasPermission('orders.shipping.update')", class="self-start rounded-xl bg-[#F4F7F2] px-3 py-2 text-[10px] font-extrabold text-[#657463]") 주문 조회 전용
                 div(class="grid gap-5 p-5 ")
                     div
                         div(class="flex items-center justify-between gap-3")
@@ -252,12 +256,12 @@ div(class="min-h-full bg-[#F3F6F1]")
                                             p(class="truncate text-xs font-extrabold text-[#3C493B]") {{item.name}}
                                             p(class="mt-0.5 text-[9px] text-[#7B8879]") {{item.price | number}}원 × {{item.quantity}}
                                         span(class="text-sm font-black text-[#3C493B]") {{item.quantity}}개
-                                div(class="mt-3 grid grid-cols-2 gap-2")
+                                div(*ngIf="hasPermission('orders.shipping.update')", class="mt-3 grid grid-cols-2 gap-2")
                                     button(type="button", (click)="toggleCollection(group)", [attr.aria-pressed]="group.collected || false", class="min-h-11 rounded-xl border px-2 text-[10px] font-extrabold", [ngClass]="group.collected ? 'border-[#A9CDA7] bg-[#EDF6EB] text-[#2E7D32]' : 'border-[#D5E0D2] bg-white text-[#526150]'") {{group.collected ? '✓ 수거 완료' : '점포 수거 완료'}}
                                     button(type="button", (click)="markGroupSoldOut(group)", [disabled]="group.soldOut", class="min-h-11 rounded-xl border border-[#E7B7AA] bg-[#FFF7F4] px-2 text-[10px] font-extrabold text-[#B74931] disabled:opacity-50") {{group.soldOut ? '품절 반영 완료' : '품절 상품 반영'}}
-                                button(type="button", (click)="proposeSubstitute(group)", [disabled]="!group.soldOut || group.substituteApproved", class="mt-2 min-h-11 w-full rounded-xl border border-[#E9C99F] bg-[#FFF8EB] px-3 text-[10px] font-extrabold text-[#966022] disabled:opacity-50") {{group.substituteApproved ? '대체상품 고객 승인 완료' : (group.substituteRequested ? '고객 승인 완료 반영' : (group.soldOut ? '대체상품 촬영 · 고객 승인 요청' : '품절 반영 후 대체상품 제안'))}}
+                                button(*ngIf="hasPermission('inquiries.reply')", type="button", (click)="proposeSubstitute(group)", [disabled]="!group.soldOut || group.substituteApproved", class="mt-2 min-h-11 w-full rounded-xl border border-[#E9C99F] bg-[#FFF8EB] px-3 text-[10px] font-extrabold text-[#966022] disabled:opacity-50") {{group.substituteApproved ? '대체상품 고객 승인 완료' : (group.substituteRequested ? '고객 승인 완료 반영' : (group.soldOut ? '대체상품 촬영 · 고객 승인 요청' : '품절 반영 후 대체상품 제안'))}}
 
-                        button(type="button", (click)="startInspection()", [disabled]="!orderReadyForInspection()", class="mt-4 min-h-12 w-full rounded-xl bg-[#2E7D32] px-4 text-xs font-extrabold text-white disabled:cursor-not-allowed disabled:bg-[#A7B7A4]") {{orderReadyForInspection() ? '모든 수거 완료 · 품질 검수 시작' : '주문 확인과 점포 수거를 먼저 완료하세요'}}
+                        button(*ngIf="hasPermission('orders.shipping.update')", type="button", (click)="startInspection()", [disabled]="!orderReadyForInspection()", class="mt-4 min-h-12 w-full rounded-xl bg-[#2E7D32] px-4 text-xs font-extrabold text-white disabled:cursor-not-allowed disabled:bg-[#A7B7A4]") {{orderReadyForInspection() ? '모든 수거 완료 · 품질 검수 시작' : '주문 확인과 점포 수거를 먼저 완료하세요'}}
 
                     aside(class="space-y-3")
                         div(class="rounded-2xl bg-[#F5F8F4] p-4")
@@ -278,7 +282,7 @@ div(class="min-h-full bg-[#F3F6F1]")
                                 div(class="flex justify-between border-t border-[#E5EBE3] pt-2")
                                     dt(class="font-extrabold") 결제 예정
                                     dd(class="font-black text-[#2E7D32]") {{selectedAdminOrder.total | number}}원
-                        button(type="button", (click)="sendMessage()", class="h-11 w-full rounded-xl border border-[#D5E0D2] bg-white text-xs font-extrabold text-[#526150]") 고객에게 안내 메시지
+                        button(*ngIf="hasPermission('inquiries.reply')", type="button", (click)="sendMessage()", class="h-11 w-full rounded-xl border border-[#D5E0D2] bg-white text-xs font-extrabold text-[#526150]") 고객에게 안내 메시지
 
         section(*ngIf="tab === 'inspection'", class="mt-6 grid gap-5 ")
             article(class="rounded-[24px] border border-[#DCE5D9] bg-white p-5 ")

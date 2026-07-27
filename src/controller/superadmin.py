@@ -15,5 +15,6 @@ class Controller(wiz.controller("user")):
     def __init__(self):
         super().__init__()
         role = wiz.session.get("role")
-        if role != "consumer":
+        rbac = wiz.model("struct").rbac
+        if not rbac.has_permission(role, "admin.accounts.manage"):
             wiz.response.redirect(ROLE_DESTINATIONS.get(role, "/access/login"))

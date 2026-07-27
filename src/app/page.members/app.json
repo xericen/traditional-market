@@ -5,7 +5,7 @@
     "namespace": "members",
     "viewuri": "/members",
     "category": "",
-    "controller": "admin",
+    "controller": "superadmin",
     "layout": "layout.sidebar",
     "template": "wiz-page-members()"
 }

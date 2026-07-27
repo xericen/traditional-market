@@ -8,13 +8,14 @@ export class Component implements OnInit, OnDestroy {
     public todayLabel: string = '';
     public orderSearch: string = '';
 
-    public tabs: any[] = [
-        { key: 'overview', label: '오늘 운영', icon: '📊' },
-        { key: 'products', label: '현장 · 상품', icon: '🧺' },
-        { key: 'orders', label: '주문 · 수거', icon: '🔔', badge: 3 },
-        { key: 'inspection', label: '검수 · 포장', icon: '✅', badge: 2 },
-        { key: 'dispatch', label: '배송 인계', icon: '🚚', badge: 2 }
+    public allTabs: any[] = [
+        { key: 'overview', label: '판매 통계', icon: '📊', permission: 'sales.statistics.view' },
+        { key: 'products', label: '상품 · 재고', icon: '🧺', anyPermissions: ['products.create', 'inventory.update'] },
+        { key: 'orders', label: '주문 조회', icon: '🔔', permission: 'orders.view', badge: 3 },
+        { key: 'inspection', label: '검수 · 고객응대', icon: '✅', permission: 'orders.shipping.update', badge: 2 },
+        { key: 'dispatch', label: '배송 상태', icon: '🚚', permission: 'orders.shipping.update', badge: 2 }
     ];
+    public tabs: any[] = [];
 
     public operatorScopes: any[] = [
         { title: '오전 현장 운영', text: '점포 순회 · 재고 확인 · 상품 촬영', icon: '🏪' },
@@ -125,6 +126,11 @@ export class Component implements OnInit, OnDestroy {
 
     public async ngOnInit() {
         await this.service.init();
+        this.tabs = this.allTabs.filter((item: any) => this.canAccessTab(item));
+        if (this.tabs.length === 0) {
+            this.service.href('/access/login');
+            return;
+        }
         const now = new Date();
         this.todayLabel = now.getFullYear() + '.' + String(now.getMonth() + 1).padStart(2, '0') + '.' + String(now.getDate()).padStart(2, '0');
         this.loadOrderWorkflow(this.selectedAdminOrder);
@@ -147,11 +153,32 @@ export class Component implements OnInit, OnDestroy {
     public syncTab() {
         const next = WizRoute.segment.tab || location.pathname.split('/')[2] || 'overview';
         const valid = this.tabs.some((item: any) => item.key === next);
-        this.tab = valid ? next : 'overview';
+        this.tab = valid ? next : this.tabs[0].key;
+        if (!valid && next !== this.tab) this.service.href('/admin/' + this.tab);
     }
 
     public goTab(tab: string) {
+        if (!this.tabs.some((item: any) => item.key === tab)) return;
         this.service.href('/admin/' + tab);
+    }
+
+    public hasPermission(permission: string) {
+        return (this.service.auth.session?.permissions || []).indexOf(permission) >= 0;
+    }
+
+    public canAccessTab(item: any) {
+        if (item.permission) return this.hasPermission(item.permission);
+        return (item.anyPermissions || []).some((permission: string) => this.hasPermission(permission));
+    }
+
+    public roleLabel() {
+        return this.service.auth.session?.roleLabel || '관리자';
+    }
+
+    public async requirePermission(permission: string) {
+        if (this.hasPermission(permission)) return true;
+        await this.service.modal.warning('현재 역할에는 이 작업을 수행할 권한이 없습니다.', false, '확인');
+        return false;
     }
 
     public tabClass(key: string) {
@@ -200,6 +227,7 @@ export class Component implements OnInit, OnDestroy {
     }
 
     public async toggleMorningRound(round: any) {
+        if (!(await this.requirePermission('products.update'))) return;
         round.done = !round.done;
         if (round.done) {
             const now = new Date();
@@ -211,11 +239,14 @@ export class Component implements OnInit, OnDestroy {
     }
 
     public async simulateMedia(type: string) {
+        const permission = type === 'video' ? 'content.shorts.create' : 'products.create';
+        if (!(await this.requirePermission(permission))) return;
         this.productForm[type] = true;
         await this.service.render();
     }
 
     public async saveProduct() {
+        if (!(await this.requirePermission('products.create'))) return;
         const price = Number(this.productForm.price);
         const stock = Number(this.productForm.stock);
         if (!this.productForm.name || price <= 0 || this.productForm.stock === null || stock < 0) {
@@ -255,6 +286,8 @@ export class Component implements OnInit, OnDestroy {
     }
 
     public async saveProductUpdate(product: any) {
+        if (!(await this.requirePermission('products.price.update'))) return;
+        if (!(await this.requirePermission('inventory.update'))) return;
         const price = Number(product.price);
         const stock = Number(product.stock);
         if (price <= 0 || stock < 0) {
@@ -269,7 +302,22 @@ export class Component implements OnInit, OnDestroy {
         await this.service.render();
     }
 
+    public async saveStockUpdate(product: any) {
+        if (!(await this.requirePermission('inventory.update'))) return;
+        const stock = Number(product.stock);
+        if (stock < 0) {
+            await this.service.modal.warning('재고는 0개 이상으로 입력해 주세요.', false, '확인');
+            return;
+        }
+        product.stock = stock;
+        product.visible = stock > 0;
+        product.updatedAt = '방금';
+        await this.service.modal.success(product.name + '의 재고를 반영했습니다.');
+        await this.service.render();
+    }
+
     public async markProductSoldOut(product: any) {
+        if (!(await this.requirePermission('inventory.update'))) return;
         const confirmed = await this.service.modal.show({
             title: '품절 처리',
             message: product.name + '의 재고를 0개로 바꾸고 소비자 화면에서 즉시 숨깁니다.',
@@ -302,6 +350,7 @@ export class Component implements OnInit, OnDestroy {
     }
 
     public async acceptOrder() {
+        if (!(await this.requirePermission('orders.shipping.update'))) return;
         if (this.selectedAdminOrder.accepted) return;
         this.selectedAdminOrder.accepted = true;
         this.selectedAdminOrder.statusLabel = '수거 중';
@@ -322,6 +371,7 @@ export class Component implements OnInit, OnDestroy {
     }
 
     public async toggleCollection(group: any) {
+        if (!(await this.requirePermission('orders.shipping.update'))) return;
         if (!this.selectedAdminOrder.accepted) {
             await this.service.modal.warning('먼저 주문을 확인하고 수거를 시작해 주세요.', false, '확인');
             return;
@@ -336,6 +386,7 @@ export class Component implements OnInit, OnDestroy {
     }
 
     public async markGroupSoldOut(group: any) {
+        if (!(await this.requirePermission('inventory.update'))) return;
         if (!this.selectedAdminOrder.accepted) {
             await this.service.modal.warning('먼저 주문을 확인하고 수거를 시작해 주세요.', false, '확인');
             return;
@@ -367,6 +418,7 @@ export class Component implements OnInit, OnDestroy {
     }
 
     public async proposeSubstitute(group: any) {
+        if (!(await this.requirePermission('inquiries.reply'))) return;
         if (!group.soldOut) {
             await this.service.modal.warning('먼저 품절 상품을 반영한 뒤 대체상품을 제안해 주세요.', false, '확인');
             return;
@@ -401,6 +453,7 @@ export class Component implements OnInit, OnDestroy {
     }
 
     public async startInspection() {
+        if (!(await this.requirePermission('orders.shipping.update'))) return;
         if (!this.orderReadyForInspection()) {
             await this.service.modal.warning('모든 점포의 상품 수거를 완료한 뒤 검수를 시작해 주세요.', false, '확인');
             return;
@@ -411,10 +464,12 @@ export class Component implements OnInit, OnDestroy {
     }
 
     public async sendMessage() {
+        if (!(await this.requirePermission('inquiries.reply'))) return;
         await this.service.modal.success('고객 안내 메시지 화면을 열었습니다.');
     }
 
     public async toggleInspection(key: string) {
+        if (!(await this.requirePermission('orders.shipping.update'))) return;
         this.inspection[key] = !this.inspection[key];
         await this.service.render();
     }
@@ -428,6 +483,7 @@ export class Component implements OnInit, OnDestroy {
     }
 
     public async togglePackaging(key: string) {
+        if (!(await this.requirePermission('orders.shipping.update'))) return;
         this.packaging[key] = !this.packaging[key];
         await this.service.render();
     }
@@ -443,12 +499,14 @@ export class Component implements OnInit, OnDestroy {
     }
 
     public async addProof() {
+        if (!(await this.requirePermission('orders.shipping.update'))) return;
         this.proofAdded = true;
         this.selectedAdminOrder.workflow.proofAdded = true;
         await this.service.render();
     }
 
     public async completeInspection() {
+        if (!(await this.requirePermission('orders.shipping.update'))) return;
         if (!this.orderReadyForInspection()) {
             await this.service.modal.warning('주문 확인과 모든 점포의 상품 수거를 먼저 완료해 주세요.', false, '확인');
             return;
@@ -494,10 +552,12 @@ export class Component implements OnInit, OnDestroy {
     }
 
     public async notifyCustomer(order: any) {
+        if (!(await this.requirePermission('inquiries.reply'))) return;
         await this.service.modal.success(order.id + ' 고객에게 준비 상태 알림을 보냈습니다.');
     }
 
     public async completeDispatch(order: any) {
+        if (!(await this.requirePermission('orders.shipping.update'))) return;
         if (order.method === 'delivery' && !order.driver) {
             await this.service.modal.warning('연계할 외부 배송 파트너를 먼저 선택해 주세요.', false, '확인');
             return;

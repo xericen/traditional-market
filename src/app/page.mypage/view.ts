@@ -29,7 +29,10 @@ export class Component implements OnInit {
     }
 
     public roleLabel(role: string) {
-        if (role === 'admin') return '마켓버틀러';
+        if (role === 'admin' || role === 'super_admin') return '총괄관리자';
+        if (role === 'product_manager') return '상품관리자';
+        if (role === 'order_manager') return '주문관리자';
+        if (role === 'market_butler') return '마켓 버틀러';
         if (role === 'merchant') return '상인';
         if (role === 'consumer') return '소비자';
         return role;
