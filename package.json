@@ -8,9 +8,9 @@
     "audit:dependencies": "npm audit --audit-level=critical"
   },
   "engines": {
-    "node": ">=20.11"
+    "node": ">=24.15"
   },
   "dependencies": {
-    "@angular/cli": "^18.2.5"
+    "@angular/cli": "22.1.5"
   }
 }

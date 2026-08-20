@@ -30,4 +30,5 @@
 | 2026-07-27 | 001 | 버틀러 RBAC·가입 승인·역할 계정 변경 검증 및 GitHub 배포 | [상세](devlog/2026-07-27/001-publish-butler-rbac.md) |
 | 2026-08-20 | 001 | README에 구현 범위·역할·아키텍처·실행·보안·문제 해결 상세화 | [상세](devlog/2026-08-20/001-expand-readme.md) |
 | 2026-08-20 | 002 | 외부 기업·채용 검토자를 위한 포트폴리오형 README 재구성 | [상세](devlog/2026-08-20/002-portfolio-readme.md) |
+| 2026-08-20 | 004 | GitHub Quality 실패의 critical npm 취약점 해소 및 브랜치 보호 진단 | [상세](devlog/2026-08-20/004-fix-quality-and-audit-protection.md) |
 | 2026-08-20 | 003 | README 상단에 노션 서비스·역할 정리 문서 링크 추가 | [상세](devlog/2026-08-20/003-notion-document-link.md) |
