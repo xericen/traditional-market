@@ -9,6 +9,7 @@
 운영 관리자의 실제 업무 흐름까지 하나의 서비스로 설계했습니다.
 
 **[서비스 둘러보기](https://market.seasonai.net) ·
+[노션 서비스 정리](https://app.notion.com/p/3c26574daa5d804eaf4ccc5d7ad939cf?source=copy_link) ·
 [GitHub 저장소](https://github.com/xericen/traditional-market) ·
 [변경 이력](devlog.md)**
 
