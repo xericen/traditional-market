@@ -28,3 +28,4 @@
 | 2026-07-24 | 003 | admin2 상품관리자·admin3 주문관리자 계정 생성 및 역할별 권한 검증 | [상세](devlog/2026-07-24/003-admin2-admin3-accounts.md) |
 | 2026-07-24 | 004 | admin 총괄관리자 비밀번호 재설정 및 실서비스 로그인 복구 | [상세](devlog/2026-07-24/004-admin-login-recovery.md) |
 | 2026-07-27 | 001 | 버틀러 RBAC·가입 승인·역할 계정 변경 검증 및 GitHub 배포 | [상세](devlog/2026-07-27/001-publish-butler-rbac.md) |
+| 2026-08-20 | 001 | README에 구현 범위·역할·아키텍처·실행·보안·문제 해결 상세화 | [상세](devlog/2026-08-20/001-expand-readme.md) |
