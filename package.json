@@ -11,6 +11,6 @@
     "node": ">=24.15"
   },
   "dependencies": {
-    "@angular/cli": "22.1.5"
+    "@angular/cli": "22.1.6"
   }
 }
